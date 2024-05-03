@@ -19,5 +19,8 @@ RUN pip install -r requirements.txt
 # copy project
 COPY . /usr/src/app/
 
+# Expose port 5000 to the outside world
+EXPOSE 5000
+
 # run entrypoint.sh
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
