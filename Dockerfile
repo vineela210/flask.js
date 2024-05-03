@@ -8,6 +8,9 @@ WORKDIR /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# Make entrypoint script executable
+RUN chmod +x entrypoint.sh
+
 # install system dependencies
 RUN apt-get update && apt-get install -y netcat
 
