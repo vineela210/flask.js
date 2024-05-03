@@ -1,19 +1,23 @@
-FROM python:3.8.2-alpine3.11
+# pull official base image
+FROM python:3.11.3-slim-buster
 
-ENV FLASK_APP=flaskr
-ENV FLASK_ENV=development
+# set work directory
+WORKDIR /usr/src/app
 
-COPY . /app
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-WORKDIR /app
+# install system dependencies
+RUN apt-get update && apt-get install -y netcat
 
-RUN pip install --editable .
+# install dependencies
+RUN pip install --upgrade pip
+COPY ./requirements.txt /usr/src/app/requirements.txt
+RUN pip install -r requirements.txt
 
-RUN flask init-db
+# copy project
+COPY . /usr/src/app/
 
-# Unit tests
-# RUN pip install pytest && pytest
-
-EXPOSE 5000
-
-CMD [ "flask", "run", "--host=0.0.0.0" ]
+# run entrypoint.sh
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
