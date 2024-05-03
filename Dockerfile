@@ -1,32 +1,23 @@
-# pull official base image
-FROM python:3.11.3-slim-buster
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
 
-# set work directory
-WORKDIR /usr/src/app
+# Set the working directory in the container
+WORKDIR /app
 
-# set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-# Make entrypoint script executable
-RUN chmod +x entrypoint.sh
+# Install any needed dependencies specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# install system dependencies
-RUN apt-get update && apt-get install -y netcat
+# Make entrypoint script executable if it exists
+RUN if [ -f entrypoint.sh ]; then chmod +x entrypoint.sh; fi
 
-# install dependencies
-RUN pip install --upgrade pip
-COPY ./requirements.txt /usr/src/app/requirements.txt
-RUN pip install -r requirements.txt
-
-# copy project
-COPY . /usr/src/app/
-
-# Expose port 5000 to the outside world
+# Make port 5000 available to the world outside this container
 EXPOSE 5000
 
-# run entrypoint.sh
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+# Define environment variable
+ENV NAME World
 
 # Run entrypoint script when the container launches
 CMD ["./entrypoint.sh"]
