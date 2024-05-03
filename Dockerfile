@@ -27,3 +27,6 @@ EXPOSE 5000
 
 # run entrypoint.sh
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+
+# Run entrypoint script when the container launches
+CMD ["./entrypoint.sh"]
