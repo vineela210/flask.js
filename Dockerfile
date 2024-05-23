@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN if [ -f entrypoint.sh ]; then chmod +x entrypoint.sh; fi
 
 # Make port 5000 available to the world outside this container
-EXPOSE 5010
+EXPOSE 5000
 
 # Define environment variable
 ENV NAME World
